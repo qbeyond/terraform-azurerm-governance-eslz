@@ -46,11 +46,19 @@ resource "azurerm_role_assignment" "role_assignments" {
 resource "azuread_application" "apps" {
   for_each = local.new_service_principals
   display_name = each.key
+
+  lifecycle {
+    ignore_changes = [owners]
+  }
 }
 
 resource "azuread_service_principal" "sp" {
   for_each = local.new_service_principals
   application_id = azuread_application.apps[each.key].application_id
+
+  lifecycle {
+    ignore_changes = [owners]
+  }
 }
 
 resource "azuread_group_member" "sp-assignments" {
