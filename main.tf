@@ -48,7 +48,7 @@ resource "azuread_application" "apps" {
   display_name = each.key
 
   lifecycle {
-    ignore_changes = [owners]
+    ignore_changes = [owners, required_resource_access]
   }
 }
 
